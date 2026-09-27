@@ -12,7 +12,7 @@ Handoffs and notes pile up whenever a session finishes work without retiring its
 - Every `{{AGENT_HOME}}/projects/*/private/INDEX.md` entry and file.
 - Every skill under `{{AGENT_HOME}}/skills`.
 
-Read each project's `project.json` for its `canonicalPath`. If nothing has changed since the last sweep (no file newer than `{{AGENT_HOME}}/.last-tidy`), report "nothing to do" and stop.
+Read each project's `project.json` for its `canonicalPath`. Always run the step 2 checks on scratch entries and tasks: work often finishes elsewhere (a pull request merges, a ticket closes) without any file here changing, so file timestamps cannot show that nothing needs doing.
 
 ## 2. Check against sources of truth
 
@@ -26,7 +26,7 @@ For each scratch entry and task:
 
 For private notes: does the note duplicate something now committed to the repository? Does it refer to hosts, paths, or tools that no longer exist?
 
-For skills: flag lines that narrate an episode ("we found that…", ticket-by-ticket history), corrections appended after older guidance instead of replacing it, and references to retired memory files.
+For skills: flag lines that narrate an episode ("we found that…", ticket-by-ticket history), corrections appended after older guidance instead of replacing it, and references to retired memory files. Skills only change when edited, so skip any skill with no file newer than `{{AGENT_HOME}}/.last-tidy`.
 
 ## 3. Propose
 

@@ -97,7 +97,7 @@ When `<home>/.install.json` exists:
 
 1. Fetch the latest kit and show `git log --oneline <recorded commit>..HEAD` as a summary of what changed.
 2. Diff each installed script and kit skill against what the recorded commit would have produced after placeholder substitution. If they differ, the user edited the file locally: show the diff and ask before replacing it.
-3. Do the same check on each managed block in `<home>/AGENTS.md` and the adapters. If the user edited text inside the markers, show the diff and offer to move the edit into the overrides section before replacing the block.
+3. Do the same check on each managed block in `<home>/AGENTS.md` and the adapters. If the user edited text inside the markers, show the diff and offer to move the edit into the overrides section before replacing the block. Find that section by its heading, ignoring case, and create it if it is missing.
 4. Replace the managed blocks with the new template content, keeping the recorded modules. Offer any modules and kit skills that are new since the recorded commit.
 5. Update `.install.json` and run the step 6 verification.
 
