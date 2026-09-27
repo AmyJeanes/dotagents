@@ -6,4 +6,4 @@ Comment the unexplained **why**, not the visible **what**. Skip behaviour that i
 
 Describe the live invariant, not historical behaviour: phrase a useful why-not forwards instead of narrating what the code used to do. Explain specialist concepts plainly for the maintainer.
 
-Bias toward removing borderline comments, but keep a compact explanation of hard-won constraints, platform limits, or obvious-but-wrong alternatives a maintainer might otherwise retry.
+Bias toward removing borderline comments, but keep a compact explanation of hard-won constraints, platform limits, or obvious-but-wrong alternatives a maintainer might otherwise retry. If the user asks to remove one of those, explain why it is load-bearing and let them make the final call.
