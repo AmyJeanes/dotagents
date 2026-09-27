@@ -20,7 +20,8 @@ Each agent keeps its own instructions, memory, and skills. Switch agents, or jus
 ├── scripts/Resolve-AgentProject.ps1
 ├── skills/
 │   ├── handoff/                   write a handoff another session can continue
-│   └── migrate-memories/          move built-in memories into shared homes
+│   ├── migrate-memories/          move built-in memories into shared homes
+│   └── tidy-agent-home/           retire stale handoffs, tasks and notes
 ├── tasks/                         cross-project handoffs (task.json + TASK.md)
 └── projects/<project-id>/         created on demand per project
     ├── project.json
@@ -81,7 +82,9 @@ If you also run agents inside WSL, set up Windows first, then paste the same pro
 | `autonomy` | Behaviour during unattended hand-offs |
 | `machine-power` | Never shut down or sleep machines without explicit authorization |
 
-Modules are installed between `<!-- agent-kit:begin ... -->` markers. Anything you write outside the markers is yours, and updates never touch it.
+Modules are installed between `<!-- agent-kit:begin ... -->` markers. Anything you write outside the markers is yours, and updates never touch it. If you want a kit rule worded differently, put your version in the `## Overrides To The Kit Guidance` section below the managed blocks rather than editing inside them. Overrides take precedence and survive updates.
+
+Existing skills in `~/.claude/skills` can be moved into the shared folder with links back. Skills managed by other installers, and claude.ai synced skills, are left alone.
 
 ## Updating
 
@@ -104,6 +107,7 @@ It shows a plan (source → destination, including anything it will drop and any
 ## Day to day
 
 - Say "hand this off" or run the `handoff` skill before switching agents or ending a session mid-task.
+- Run `tidy-agent-home` now and then, or on a schedule. It checks scratch entries, tasks and private notes against merged PRs, deleted branches and age, then proposes what to retire or promote.
 - Start work in a repository and the agent checks that project's scratch index and related tasks.
 - Put repository guidance in the repository's `AGENTS.md`. Give it a one-line `CLAUDE.md` containing `@AGENTS.md` so Claude reads the same file.
 

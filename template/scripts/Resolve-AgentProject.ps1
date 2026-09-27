@@ -551,7 +551,8 @@ $result = [ordered]@{
 }
 
 if ($Json) {
-    $result | ConvertTo-Json -Depth 10
+    # Pure-ASCII output survives piping through non-UTF-8 console code pages.
+    $result | ConvertTo-Json -Depth 10 -EscapeHandling EscapeNonAscii
 }
 else {
     $projectHome
