@@ -1,0 +1,6 @@
+## Git Worktrees
+
+- Work in the existing checkout by default. Creating or switching a branch there is fine when it has no uncommitted changes and no other active session is using it (check the scratch `INDEX.md`). Reading another branch never needs a worktree: use `git show <ref>:<path>`, `git log <ref>`, or `git diff <ref>`.
+- Create a worktree only when the existing checkout is unavailable: it holds uncommitted work from a different task, another session is working in it, or the task needs two branches checked out at once. Tell the user why when you create one.
+- Put worktrees you create at `<repo-parent>/<repo>.worktrees/<branch-slug>`, where `<branch-slug>` is the branch name lowercased with `/` replaced by `-`. When an agent's built-in worktree feature picks the location, keep its default. Never put a worktree in a temporary directory that can be cleaned out from under it.
+- A worktree belongs to the task that created it. Record its path in the task's handoff. When the task finishes or is abandoned, remove the worktree in the same step that retires the handoff: check `git status` and unpushed commits first, and never discard work without the user's approval; then `git worktree remove <path>`, delete the local branch once merged, and `git worktree prune`. Leave worktrees the user or another session created unless asked.

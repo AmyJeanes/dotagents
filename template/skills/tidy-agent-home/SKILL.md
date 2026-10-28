@@ -11,6 +11,7 @@ Handoffs and notes pile up whenever a session finishes work without retiring its
 - Every task in `{{AGENT_HOME}}/tasks/*/task.json` with its entrypoint.
 - Every `{{AGENT_HOME}}/projects/*/private/INDEX.md` entry and file.
 - Every skill under `{{AGENT_HOME}}/skills`.
+- Every linked worktree of each project that is a git repository (`git worktree list --porcelain`).
 
 Read each project's `project.json` for its `canonicalPath`. Always run the step 2 checks on scratch entries and tasks: work often finishes elsewhere (a pull request merges, a ticket closes) without any file here changing, so file timestamps cannot show that nothing needs doing.
 
@@ -24,6 +25,10 @@ For each scratch entry and task:
 - How old is the last update? Treat anything untouched for more than 30 days as a candidate, not an automatic retire.
 - Does every task participant still resolve, and is its `status` still accurate?
 
+For each project home: does its `canonicalPath` still exist? A home left behind by a removed worktree is a retire candidate once its scratch entries are handled.
+
+For each linked worktree: is its branch merged, or deleted on the remote? Does an active handoff still reference its path? Does it have uncommitted changes or unpushed commits? Is it marked prunable? A clean worktree whose branch has merged and that no handoff references is a removal candidate; one with unsaved work is never removed without the user deciding what happens to that work.
+
 For private notes: does the note duplicate something now committed to the repository? Does it refer to hosts, paths, or tools that no longer exist?
 
 For skills: flag lines that narrate an episode ("we found that…", ticket-by-ticket history), corrections appended after older guidance instead of replacing it, and references to retired memory files. Skills only change when edited, so skip any skill with no file newer than `{{AGENT_HOME}}/.last-tidy`.
@@ -32,7 +37,7 @@ For skills: flag lines that narrate an episode ("we found that…", ticket-by-ti
 
 Present one table per area with each item, the evidence, and a proposed action:
 
-- **retire:** delete the file or directory and its index row;
+- **retire:** delete the file or directory and its index row; for a worktree, `git worktree remove`, delete its merged local branch, and `git worktree prune`;
 - **promote, then retire:** move durable knowledge into the repository (proposed edit only, never committed), a skill, or `{{AGENT_HOME}}/AGENTS.md`;
 - **update:** fix its status, index row, or wording;
 - **keep:** still active.

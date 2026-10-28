@@ -78,7 +78,8 @@ If you also run agents inside WSL, set up Windows first, then paste the same pro
 | `recording-knowledge` | Where each kind of fact belongs: commit message, comment, `AGENTS.md`, or private notes |
 | `code-comments` | Minimal comments that explain *why*, never history |
 | `code-style` | Match surrounding code and use plain, familiar identifiers |
-| `git-safety` | Fetch before reasoning, confirm before pushing shared branches, no upstream PRs without approval |
+| `git-core` | Fetch before reasoning, confirm before pushing shared branches, no upstream PRs without approval |
+| `git-worktrees` | Use the existing checkout by default, one consistent worktree location, and remove worktrees when their task ends |
 | `autonomy` | Behaviour during unattended hand-offs |
 | `machine-power` | Never shut down or sleep machines without explicit authorization |
 

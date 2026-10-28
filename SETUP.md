@@ -30,10 +30,11 @@ Report, without changing anything:
 Ask all of these in one batch, giving your recommendation for each:
 
 1. **Which agents to configure.**
-2. **Guidance modules.** The core (`template/AGENTS.md`) is always installed. Offer the modules as two groups, and let the user drop individual modules from a group:
+2. **Guidance modules.** The core (`template/AGENTS.md`) is always installed. Offer the modules as three groups, and let the user drop individual modules from a group:
    - **Writing:** `recording-knowledge` (where each kind of fact belongs), `code-comments` (minimal comments that explain *why*), and `code-style` (match surrounding code; plain identifiers). Recommended.
-   - **Safety:** `git-safety` (check freshness before reasoning, confirm before pushing shared branches, no upstream actions outside the user's or their organisation's repositories without approval), `autonomy` (behaviour during unattended hand-offs), and `machine-power` (never shut down or sleep machines without authorization).
-   If your question tool caps the number of options, ask about the two groups rather than each module separately.
+   - **Git:** `git-core` (check freshness before reasoning, confirm before pushing shared branches, no upstream actions outside the user's or their organisation's repositories without approval) and `git-worktrees` (use the existing checkout by default; consistent worktree paths; remove worktrees with their task).
+   - **Safety:** `autonomy` (behaviour during unattended hand-offs) and `machine-power` (never shut down or sleep machines without authorization).
+   If your question tool caps the number of options, ask about the three groups rather than each module separately.
 3. **Existing user skills** (only if step 2 found some real directories). Recommend moving them into `<home>/skills` with links back, so both agents share them.
 4. **Migrate existing memories now?** (only if step 2 found some). Recommend yes: the install disables built-in memory, so unmigrated memories stop being read (they stay in the backup). This runs the `migrate-memories` skill after the install.
 5. **Existing hand-written guidance.** Propose how to split the content found in step 2: shared rules go in `<home>/AGENTS.md`, agent-specific parts stay in the adapter, and duplicates or memory instructions that would now contradict the setup are dropped or rewritten. Show the proposed split.
@@ -96,10 +97,17 @@ If the user chose it, follow the installed `<home>/skills/migrate-memories/SKILL
 When `<home>/.install.json` exists:
 
 1. Fetch the latest kit and show `git log --oneline <recorded commit>..HEAD` as a summary of what changed.
-2. Diff each installed script and kit skill against what the recorded commit would have produced after placeholder substitution. If they differ, the user edited the file locally: show the diff and ask before replacing it.
-3. Do the same check on each managed block in `<home>/AGENTS.md` and the adapters. If the user edited text inside the markers, show the diff and offer to move the edit into the overrides section before replacing the block. Find that section by its heading, ignoring case, and create it if it is missing.
-4. Replace the managed blocks with the new template content, keeping the recorded modules. Offer any modules and kit skills that are new since the recorded commit.
-5. Update `.install.json` and run the step 6 verification.
+2. Apply renames. A module or skill listed under **Renamed** below is the same item under its new name, not a removal plus a new addition: rename its managed block markers and its `.install.json` entry, and compare it against the old file path at the recorded commit.
+3. Diff each installed script and kit skill against what the recorded commit would have produced after placeholder substitution. If they differ, the user edited the file locally: show the diff and ask before replacing it.
+4. Do the same check on each managed block in `<home>/AGENTS.md` and the adapters. If the user edited text inside the markers, show the diff and offer to move the edit into the overrides section before replacing the block. Find that section by its heading, ignoring case, and create it if it is missing.
+5. Replace the managed blocks with the new template content, keeping the recorded modules. Offer any modules and kit skills that are new since the recorded commit.
+6. Update `.install.json` and run the checks in **6. Verify and report**.
+
+### Renamed
+
+| Old name | New name | Kind |
+| --- | --- | --- |
+| `git-safety` | `git-core` | module |
 
 ## WSL companion mode
 

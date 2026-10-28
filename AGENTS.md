@@ -6,4 +6,5 @@ This is a public, generic template. Keep everything free of any individual's nam
 - Installed files use `{{PLACEHOLDER}}` tokens. Every token must be documented in `SETUP.md` step 4 and listed in the step 6 verification, and none may survive installation.
 - Installed guidance is wrapped in `agent-kit` managed markers so updates can replace it without touching user content. Keep module files self-contained, each with a single `##` heading.
 - When adding a module or skill, update the module list in `SETUP.md` step 3 and the table in `README.md`.
+- When renaming a module or skill, add it to the **Renamed** table in `SETUP.md` Update mode so existing installs carry it over.
 - Keep `template/scripts/Resolve-AgentProject.ps1` cross-platform on PowerShell 7+, and keep its manifest schemas backward compatible with existing installs.
